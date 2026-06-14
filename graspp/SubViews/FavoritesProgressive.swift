@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FavoritesProgressive: View {
     var body: some View {
-        VStack{
+        VStack (spacing: 14) {
             HStack (spacing: 16){
                 Text("Favorites")
                     .font(.title2)

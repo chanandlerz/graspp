@@ -9,9 +9,20 @@ import SwiftUI
 
 struct RecentlyViewedScreen: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+        ScrollView {
+            VStack (spacing: 12){
+                Text("Recently Viewed")
+                    .font(Font.largeTitle.bold())
+                
+                Color.clear.frame(height: 8)
+                
+                ForEach(0..<10) {_ in
+                    CardArticleCategory(articleTitle:"Typeface vs Font long",categoryName:"Typography", iconAccent: AnyShapeStyle(.indigo))
+                }
+            }
+        }
+        .background(Color(.systemGroupedBackground))
+    }}
 
 #Preview {
     RecentlyViewedScreen()

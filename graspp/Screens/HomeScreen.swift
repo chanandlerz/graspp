@@ -9,12 +9,15 @@ import SwiftUI
 
 struct HomeScreen: View {
     var body: some View {
-        VStack{
-            Text("Graspp")
-                .font(Font.largeTitle.bold())
-            
-            FavoritesProgressive()
-            Spacer()
+        ScrollView {
+            VStack (spacing: 24){
+                Text("Graspp")
+                    .font(Font.largeTitle.bold())
+                
+                FavoritesProgressive()
+                RecentlyViewedProgressive()
+                Spacer()
+            }
         }
         .background(Color(.systemGroupedBackground))
     }
