@@ -9,7 +9,33 @@ import SwiftUI
 
 struct RecentlyViewedProgressive: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack (spacing: 14){
+            HStack (spacing: 16){
+                Text("Recently viewed")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                Image(systemName: "chevron.right")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundColor(.secondary)
+                Spacer()
+            }
+            
+            VStack (spacing: 12){
+                CardArticleCategory(articleTitle:"Typeface vs Font long",categoryName:"Typography", iconAccent: AnyShapeStyle(.indigo)
+                )
+                CardArticleCategory(articleTitle:"Typeface vs Font long",categoryName:"Typography", iconAccent: AnyShapeStyle(.indigo)
+                )
+                CardArticleCategory(articleTitle:"Typeface vs Font long",categoryName:"Typography", iconAccent: AnyShapeStyle(.indigo)
+                )
+                CardArticleCategory(articleTitle:"Typeface vs Font long",categoryName:"Typography", iconAccent: AnyShapeStyle(.indigo)
+                )
+                CardArticleCategory(articleTitle:"Typeface vs Font long",categoryName:"Typography", iconAccent: AnyShapeStyle(.indigo)
+                )
+            }
+            
+        }
+        .padding(.horizontal, 16)
     }
 }
 
