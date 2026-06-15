@@ -36,6 +36,7 @@ struct CardArticleCategory: View {
             VStack (alignment: .leading, spacing: 4){
                 Text(articleTitle)
                     .font(.headline)
+                    .fontWeight(.semibold)
                     .lineLimit(2)
                     .layoutPriority(1)
                 
