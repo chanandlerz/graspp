@@ -8,9 +8,33 @@
 import SwiftUI
 
 struct CategoryScreen: View {
+    let columns = [GridItem(.flexible()), GridItem(.flexible())]
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+        ScrollView {
+            VStack (spacing: 12){
+                Text("Favorite")
+                    .font(Font.largeTitle.bold())
+                
+                Color.clear.frame(height: 8)
+                
+                HStack(spacing: 12) {
+                    CardCategory(symbolName:"textformat", categoryName:"Typography", iconAccent: AnyShapeStyle(.indigo)
+                    )
+                    CardCategory(symbolName:"textformat", categoryName:"Design Fundamentals", iconAccent: AnyShapeStyle(.indigo)
+                    )
+                }
+                
+                HStack(spacing: 12) {
+                    CardCategory(symbolName:"textformat", categoryName:"Typography", iconAccent: AnyShapeStyle(.indigo)
+                    )
+                    CardCategory(symbolName:"textformat", categoryName:"Design Fundamentals", iconAccent: AnyShapeStyle(.indigo)
+                    )
+                }
+                
+            }
+        }
+        .background(Color(.systemGroupedBackground))    }
 }
 
 #Preview {
