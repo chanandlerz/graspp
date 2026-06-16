@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct CardArticleList: View {
-    let articleTitle: String
-    let description: String
-    let iconAccent: AnyShapeStyle
+    let article: Article
     
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
     
@@ -26,20 +24,19 @@ struct CardArticleList: View {
         HStack (spacing: 0){
             Image(systemName: "circle.fill")
                 .font(.caption2)
-                .foregroundStyle(iconAccent)
-//                .frame(width: dynamicTypeSize.isAccessibilitySize ? 64 : 52, height: dynamicTypeSize.isAccessibilitySize ? 64 : 52)
-//                .background(.ultraThinMaterial, in: Circle())
+                .foregroundStyle(article.category?.color ?? .blue)
+            
             Color.clear.frame(width:14, height: 4)
             
             VStack (alignment: .leading, spacing: 4){
-                Text(articleTitle)
+                Text(article.title)
                     .font(.headline)
                     .fontWeight(.semibold)
                     .lineLimit(2)
                     .layoutPriority(1)
                 
                 
-                Text(description)
+                Text(article.summary)
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -53,13 +50,13 @@ struct CardArticleList: View {
                 
         }
         .padding(16)
-        .frame(width: 370)
+//        .frame(width: 370)
         .frame(minHeight: 66)
         .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 10))
     }
 }
 
 #Preview {
-    CardArticleList(articleTitle:"Typeface vs Font long",description:"One line description text here.", iconAccent: AnyShapeStyle(.indigo)
-    )
+    let article = Article(title: "Typeface vs Font", summary: "They are not the same.", body: "", hig: "", higSource: "")
+    CardArticleList(article: article)
 }

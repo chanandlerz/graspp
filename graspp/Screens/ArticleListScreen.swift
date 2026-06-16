@@ -8,23 +8,40 @@
 import SwiftUI
 
 struct ArticleListScreen: View {
+    
+    let category: ArticleCategory
+    
     var body: some View {
+        
+        
         ScrollView {
-            VStack (spacing: 12){
-                Text("Design Fundamentals")
-                    .font(Font.largeTitle.bold())
-                
-//                Color.clear.frame(height: 8)
-                
-                ForEach(0..<5) {_ in
-                    CardArticleList(articleTitle:"Typeface vs Font long",description:"One line description text here.", iconAccent: AnyShapeStyle(.indigo)
-                    )
+            LazyVStack(spacing: 12) {
+                ForEach(category.articles.sorted { $0.sortOrder < $1.sortOrder }) { article in
+                    NavigationLink(value: article) {
+                        CardArticleList(article: article)
+                    }
+                    .buttonStyle(.plain)
                 }
             }
+            .padding(.horizontal)
         }
-        .background(Color(.systemGroupedBackground))
-    }}
+        .navigationTitle(category.name)
+        .navigationBarTitleDisplayMode(.large)
+        .navigationDestination(for: Article.self) { article in
+            ArticleScreen(article: article)
+        }
+    }
+}
 
 #Preview {
-    ArticleListScreen()
+    let cat = ArticleCategory(
+        name: "Typography",
+        icon: "textformat",
+        colorName: "purple",
+        sortOrder: 0
+    )
+
+    NavigationStack {
+        ArticleListScreen(category: cat)
+    }
 }
