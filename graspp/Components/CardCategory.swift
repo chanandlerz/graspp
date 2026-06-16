@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct CardCategory: View {
-    let symbolName: String
-    let categoryName: String
-    let iconAccent: AnyShapeStyle
     
+    let category: ArticleCategory
+        
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
     
     var singleLineHeight: CGFloat {
@@ -21,22 +20,7 @@ struct CardCategory: View {
     var maxTextHeight: CGFloat {
         singleLineHeight * 2.2
     }
-    
-    var cardHeight: CGFloat {
-        switch dynamicTypeSize {
-        case .xSmall, .small, .medium, .large: return 153
-        case .xLarge: return 153
-        case .xxLarge: return 153
-        case .xxxLarge: return 210
-        case .accessibility1: return 240
-        case .accessibility2: return 280
-        case .accessibility3: return 320
-        case .accessibility4: return 370
-        case .accessibility5: return 420
-        @unknown default: return 153
-        }
-    }
-    
+        
     var cardHeightDetect: CGFloat {
         // 1. Convert SwiftUI DynamicTypeSize ke UIKit UIContentSizeCategory
         let sizeCategory = UIContentSizeCategory(dynamicTypeSize)
@@ -63,41 +47,38 @@ struct CardCategory: View {
         VStack (alignment: .leading, spacing: 0){
             HStack{
                 Spacer()
-                Image(systemName: symbolName)
+                Image(systemName: category.icon)
                     .font(.title2)
                     .fontWeight(.medium)
-                    .foregroundStyle(iconAccent)
+                    .foregroundStyle(category.color)
                     .frame(width: dynamicTypeSize.isAccessibilitySize ? 64 : 52, height: dynamicTypeSize.isAccessibilitySize ? 64 : 52)
                     .background(.ultraThinMaterial, in: Circle())
             }
                         
-//            Color.clear.frame(height: 16)
-
             Spacer()
             
-            VStack{
-                Text(categoryName)
-                    .lineLimit(2)
-                    .font(.title3)
-                    .fontWeight(.bold)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            .frame(maxWidth: .infinity, alignment: .init(horizontal: .leading, vertical: .bottom))
-                            
+            Text(category.name)
+                .lineLimit(2)
+                .font(.title3)
+                .foregroundColor(.primary)
+                .fontWeight(.bold)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .multilineTextAlignment(.leading)
+            
         }
         .padding(16)
-        .frame(width: 181, height: cardHeightDetect)
+        .frame(maxWidth: .infinity)
+        .frame(height: cardHeightDetect)
         .frame(minHeight: 153, alignment: .topLeading)
         .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 10))
     }
 }
 
 #Preview {
-    HStack{
-        CardCategory(symbolName:"textformat", categoryName:"Typography", iconAccent: AnyShapeStyle(.indigo)
-        )
-        CardCategory(symbolName:"textformat", categoryName:"Design Fundamentals", iconAccent: AnyShapeStyle(.indigo)
-        )
-    }
-
+    let cat = ArticleCategory(name: "Typography", icon: "textformat", colorName: "purple", sortOrder: 0)
+        HStack {
+            CardCategory(category: cat)
+            CardCategory(category: ArticleCategory(name: "Design Fundamentals", icon: "lightbulb", colorName: "blue", sortOrder: 3))
+        }
 }

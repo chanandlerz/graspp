@@ -6,37 +6,39 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct CategoryScreen: View {
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
     
+    @Query(sort: \ArticleCategory.sortOrder) var categories: [ArticleCategory]
+    
     var body: some View {
-        ScrollView {
-            VStack (spacing: 12){
-                Text("Favorite")
-                    .font(Font.largeTitle.bold())
-                
-                Color.clear.frame(height: 8)
-                
-                HStack(spacing: 12) {
-                    CardCategory(symbolName:"textformat", categoryName:"Typography", iconAccent: AnyShapeStyle(.indigo)
-                    )
-                    CardCategory(symbolName:"textformat", categoryName:"Design Fundamentals", iconAccent: AnyShapeStyle(.indigo)
-                    )
+        
+        NavigationStack {
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 12) {
+                    ForEach(categories) {category in
+                        NavigationLink(value: category) {
+                            CardCategory(category: category)
+                        }
+                        
+                    }
                 }
-                
-                HStack(spacing: 12) {
-                    CardCategory(symbolName:"textformat", categoryName:"Typography", iconAccent: AnyShapeStyle(.indigo)
-                    )
-                    CardCategory(symbolName:"textformat", categoryName:"Design Fundamentals", iconAccent: AnyShapeStyle(.indigo)
-                    )
-                }
-                
+                .padding(.horizontal, 16)
             }
+            .background(Color(.systemGroupedBackground))
+            .listStyle(.plain)
+            .navigationTitle("Category")
+            .navigationBarTitleDisplayMode(.large)
+            .navigationDestination(for: ArticleCategory.self) { category in ArticleListScreen(category: category)
+            }
+            
         }
-        .background(Color(.systemGroupedBackground))    }
+    }
 }
-
 #Preview {
+    let cat = ArticleCategory(name: "Typography", icon: "textformat", colorName: "purple", sortOrder: 0)
+    
     CategoryScreen()
 }
