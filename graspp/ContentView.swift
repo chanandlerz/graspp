@@ -22,6 +22,13 @@ struct ContentView: View {
                 .tabItem {
                     Label("Category", systemImage: "rectangle.grid.2x2")
                 }
+            
+            SearchScreen()
+                .tabItem () {
+                    Image(systemName: "magnifyingglass")
+                    Text("Search")
+                }
+                .tag(2)
         }
     }
 }
