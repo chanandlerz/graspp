@@ -138,7 +138,7 @@ struct ArticleScreen: View {
                 Button {
                     store.toggleFavorite(article)
                 } label: {
-                    Image(systemName: store.isFavorite(article) ? "bookmark.fill" : "bookmark")
+                    Image(systemName: store.isFavorite(article) ? "star.fill" : "star")
                 }
             }
         }
