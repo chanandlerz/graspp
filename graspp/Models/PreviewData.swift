@@ -26,6 +26,21 @@ let previewContainer: ModelContainer = {
     return container
 }()
 
+@MainActor
+func setupPreviewStore() {
+    let context = previewContainer.mainContext
+    let descriptor = FetchDescriptor<Article>()
+    
+    guard let articles = try? context.fetch(descriptor), !articles.isEmpty else { return }
+    
+    let store = GrasppStore.shared
+    UserDefaults.standard.removeObject(forKey: GrasppDefaults.favoritesKey)
+    UserDefaults.standard.removeObject(forKey: GrasppDefaults.recentlyViewedKey)
+    
+    articles.prefix(2).forEach { store.toggleFavorite($0) }
+    articles.prefix(5).forEach { store.markViewed($0) }
+}
+
 // MARK: - Sample Data
 
 /// Satu category untuk preview
@@ -34,7 +49,7 @@ var sampleCategory: ArticleCategory {
     let cat = ArticleCategory(
         name: "Typography",
         icon: "textformat",
-        colorName: "purple",
+        colorName: "indigo",
         sortOrder: 0
     )
 
@@ -42,6 +57,28 @@ var sampleCategory: ArticleCategory {
         title: "Dynamic Type",
         summary: "How iOS scales text based on user preference.",
         body: "Sample body",
+        hig: "",
+        higSource: ""
+    )
+
+    article.category = cat
+
+    return cat
+}
+
+@MainActor
+var sampleCategory2: ArticleCategory {
+    let cat = ArticleCategory(
+        name: "Layout",
+        icon: "ruler",
+        colorName: "pink",
+        sortOrder: 0
+    )
+
+    let article = Article(
+        title: "Visual Hierarchy",
+        summary: "Visual hierarchy controls where the eye travels.",
+        body: "Visual hierarchy controls where the eye travels and in what order. Achieved through size, weight, color, and contrast — not by using different fonts.",
         hig: "",
         higSource: ""
     )
@@ -127,4 +164,10 @@ var sampleArticleMinimal: Article {
 @MainActor
 var sampleArticles: [Article] {
     [sampleArticle, sampleArticleMinimal]
+}
+
+
+@MainActor
+var sampleCategories: [ArticleCategory] {
+    [sampleCategory, sampleCategory2]
 }
