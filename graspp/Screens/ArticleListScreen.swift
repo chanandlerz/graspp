@@ -34,20 +34,6 @@ struct ArticleListScreen: View {
     }
 }
 
-//#Preview {
-//    ScrollView {
-//        LazyVStack(spacing: 12) {
-//            ForEach(sampleArticles) { article in
-//                NavigationLink(value: article) {
-//                    CardArticleList(article: article)
-//                }
-//                .buttonStyle(.plain)
-//            }
-//        }
-//        .padding(.horizontal)
-//    }
-//    .modelContainer(previewContainer)
-//}
 
 #Preview {
     NavigationStack {
