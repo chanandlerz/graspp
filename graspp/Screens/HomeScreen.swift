@@ -63,21 +63,49 @@ struct HomeScreen: View {
 }
 
 
+@MainActor
 struct HomeScreenPreview: View {
+    let isEmptyState: Bool
+    private let modelContainer: ModelContainer
     
-    init() {
-        setupPreviewStore()
+    init(isEmptyState: Bool = false) {
+        self.isEmptyState = isEmptyState
+        
+        if isEmptyState {
+            self.modelContainer = Self.makeEmptyPreviewContainer()
+        } else {
+            setupPreviewStore()
+            self.modelContainer = previewContainer
+        }
     }
     
     var body: some View {
-        NavigationStack{
+        NavigationStack {
             HomeScreen()
-                .modelContainer(previewContainer)
+                .modelContainer(modelContainer)
         }
+    }
+    
+    private static func makeEmptyPreviewContainer() -> ModelContainer {
+        let schema = Schema([
+            ArticleCategory.self,
+            Article.self,
+            CodeSnippet.self,
+            ArticleReference.self
+        ])
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        return try! ModelContainer(for: schema, configurations: config)
     }
 }
 
 
-#Preview {
-    HomeScreenPreview()
+// 1. Preview untuk State Normal (Ada Data)
+#Preview("Default State") {
+    HomeScreenPreview(isEmptyState: false)
 }
+
+// 2. Preview untuk Empty State (Kosong)
+#Preview("Empty State") {
+    HomeScreenPreview(isEmptyState: true)
+}
+
