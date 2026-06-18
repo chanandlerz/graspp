@@ -76,7 +76,7 @@ struct ArticleScreen: View {
                                 .padding(.bottom, 12)
                             
                             Markdown(article.body)
-                                .markdownTheme(.docC)
+                                .markdownTheme(.graspp)
                                 .padding(.horizontal, 16)
                         }
                         
@@ -153,7 +153,7 @@ struct ArticleScreen: View {
         .onAppear {
             store.markViewed(article)
         }
-//        .background(Color(.systemGroupedBackground))
+        //        .background(Color(.systemGroupedBackground))
         .background(Color(.systemBackground))
     }
     
@@ -348,6 +348,44 @@ struct FloatingPill: View {
     }
 }
 
+// MARK: Theme
+extension Theme {
+    static let graspp = Theme()
+        .heading1 { config in
+            config.label
+                .markdownTextStyle {
+                    FontSize(20)
+                    FontWeight(.bold)
+                }
+                .relativeLineSpacing(.em(0.1))
+                .markdownMargin(top: 20, bottom: 4)
+        }
+        .heading2 { config in
+            config.label
+                .markdownTextStyle {
+                    FontSize(17)
+                    FontWeight(.semibold)
+                }
+                .markdownMargin(top: 16, bottom: 4)
+        }
+        .heading3 { config in
+            config.label
+                .markdownTextStyle {
+                    FontSize(15)
+                    FontWeight(.semibold)
+                    ForegroundColor(.secondary)
+                }
+                .markdownMargin(top: 12, bottom: 2)
+        }
+        .paragraph { config in
+            config.label
+                .markdownTextStyle {
+                    FontSize(15)
+                }
+                .relativeLineSpacing(.em(0.15))
+                .markdownMargin(top: 0, bottom: 12)
+        }
+}
 
 // MARK: - Preview
 #Preview ("Full Article") {
