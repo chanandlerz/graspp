@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct CardHistory: View {
-    let articleTitle: String
-    let categoryName: String
-    let iconAccent: AnyShapeStyle
+    let article : Article
+//    let articleTitle: String
+//    let categoryName: String
+//    let iconAccent: AnyShapeStyle
     
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
     
@@ -31,14 +32,14 @@ struct CardHistory: View {
             Color.clear.frame(width:14, height: 4)
             
             VStack (alignment: .leading, spacing: 4){
-                Text(articleTitle)
+                Text(article.title)
                     .font(.headline)
                     .fontWeight(.semibold)
                     .lineLimit(2)
                     .layoutPriority(1)
                 
                 
-                Text(categoryName)
+                Text(article.category?.name ?? "")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
@@ -55,6 +56,5 @@ struct CardHistory: View {
 }
 
 #Preview {
-    CardHistory(articleTitle:"Typeface vs Font long",categoryName:"Typography", iconAccent: AnyShapeStyle(.indigo)
-    )
+    CardHistory(article: sampleArticle)
 }

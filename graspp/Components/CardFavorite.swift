@@ -9,10 +9,11 @@ import SwiftUI
 
 struct CardFavorite: View {
     
-    let symbolName: String
-    let articleTitle: String
-    let categoryName: String
-    let iconAccent: AnyShapeStyle
+    let article: Article
+//    let symbolName: String
+//    let articleTitle: String
+//    let categoryName: String
+//    let iconAccent: AnyShapeStyle
     
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
     
@@ -48,10 +49,10 @@ struct CardFavorite: View {
     
     var body: some View {
         VStack (alignment: .leading, spacing: 0){
-            Image(systemName: symbolName)
+            Image(systemName: article.category?.icon ?? "")
                 .font(.title2)
                 .fontWeight(.medium)
-                .foregroundStyle(iconAccent)
+                .foregroundStyle(article.category?.color ?? .blue)
                 .frame(width: dynamicTypeSize.isAccessibilitySize ? 64 : 52, height: dynamicTypeSize.isAccessibilitySize ? 64 : 52)
                 .background(.ultraThinMaterial, in: Circle())
             
@@ -59,13 +60,13 @@ struct CardFavorite: View {
             Spacer()
             
             VStack (alignment: .leading, spacing: 4){
-                Text(articleTitle)
+                Text(article.title)
                     .font(.headline)
                     .lineLimit(2)
                     .layoutPriority(1)
                 
                 
-                Text(categoryName)
+                Text(article.category?.name ?? "")
                     .font(.callout)
                     .foregroundStyle(.secondary)
             }
@@ -80,11 +81,7 @@ struct CardFavorite: View {
     }
 }
 
+
 #Preview {
-    HStack{
-        CardFavorite(symbolName:"textformat", articleTitle:"Typeface vs Font long",categoryName:"Typography", iconAccent: AnyShapeStyle(.indigo)
-        )
-        CardFavorite(symbolName:"textformat", articleTitle:"Typeface",categoryName:"Typography", iconAccent: AnyShapeStyle(.indigo)
-        )
-    }
+    CardFavorite(article: sampleArticle)
 }

@@ -57,6 +57,5 @@ struct CardArticleList: View {
 }
 
 #Preview {
-    let article = Article(title: "Typeface vs Font", summary: "They are not the same.", body: "", hig: "", higSource: "")
-    CardArticleList(article: article)
+    CardArticleList(article: sampleArticle)
 }

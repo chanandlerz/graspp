@@ -166,8 +166,44 @@ var sampleArticles: [Article] {
     [sampleArticle, sampleArticleMinimal]
 }
 
-
 @MainActor
 var sampleCategories: [ArticleCategory] {
     [sampleCategory, sampleCategory2]
+}
+
+@MainActor
+var sampleArticleListCategory: ArticleCategory {
+    let cat = ArticleCategory(
+        name: "Typography",
+        icon: "textformat",
+        colorName: "indigo",
+        sortOrder: 0
+    )
+
+    let dynamicType = Article(
+        title: "Dynamic Type",
+        summary: "How iOS scales text based on user preference.",
+        body: "Sample body",
+        sortOrder: 0
+    )
+
+    let typeface = Article(
+        title: "Typeface vs Font",
+        summary: "Understand the difference between a type family and a font file.",
+        body: "Sample body",
+        sortOrder: 1
+    )
+
+    let hierarchy = Article(
+        title: "Visual Hierarchy",
+        summary: "Use size, weight, and contrast to guide attention.",
+        body: "Sample body",
+        sortOrder: 2
+    )
+
+    dynamicType.category = cat
+    typeface.category = cat
+    hierarchy.category = cat
+
+    return cat
 }

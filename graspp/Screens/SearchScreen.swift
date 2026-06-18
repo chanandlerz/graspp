@@ -147,9 +147,7 @@ struct SearchScreen: View {
                                     ForEach(Array(recentArticles.prefix(5))) { article in
                                         NavigationLink(value:article) {
                                             CardHistory(
-                                                articleTitle: article.title,
-                                                categoryName: article.category?.name ?? "",
-                                                iconAccent: AnyShapeStyle(article.category?.color ?? .blue)
+                                                article: article
                                             )
                                         }
                                         .buttonStyle(.plain)
@@ -212,6 +210,24 @@ struct SearchScreen: View {
     }
 }
 
+
+struct SearchScreenPreview : View {
+    init() {
+        setupPreviewStore()
+    }
+    
+    var body: some View {
+        NavigationStack {
+            SearchScreen()
+                .modelContainer(previewContainer)
+        }
+    }
+}
+
+#Preview {
+    SearchScreenPreview()
+    
+}
 //#Preview {
 //    SearchScreen()
 //}

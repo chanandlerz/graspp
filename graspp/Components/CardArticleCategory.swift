@@ -7,12 +7,11 @@
 
 
 import SwiftUI
+import SwiftData
 
 struct CardArticleCategory: View {
     
-    let articleTitle: String
-    let categoryName: String
-    let iconAccent: AnyShapeStyle
+    let article: Article
     
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
     
@@ -28,20 +27,18 @@ struct CardArticleCategory: View {
         HStack (spacing: 0){
             Image(systemName: "circle.fill")
                 .font(.caption2)
-                .foregroundStyle(iconAccent)
-//                .frame(width: dynamicTypeSize.isAccessibilitySize ? 64 : 52, height: dynamicTypeSize.isAccessibilitySize ? 64 : 52)
-//                .background(.ultraThinMaterial, in: Circle())
+                .foregroundStyle(article.category?.color ?? .blue)
             Color.clear.frame(width:14, height: 4)
             
             VStack (alignment: .leading, spacing: 4){
-                Text(articleTitle)
+                Text(article.title)
                     .font(.headline)
                     .fontWeight(.semibold)
                     .lineLimit(2)
                     .layoutPriority(1)
                 
                 
-                Text(categoryName)
+                Text(article.category?.name ?? "")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
@@ -63,5 +60,6 @@ struct CardArticleCategory: View {
 
 
 #Preview {
-    CardArticleCategory(articleTitle: sampleArticle.title, categoryName: sampleArticle.category?.name ?? "", iconAccent: AnyShapeStyle(sampleArticle.category?.color ?? .blue))
+    CardArticleCategory(article: sampleArticle)
+        .modelContainer(previewContainer)
 }

@@ -75,10 +75,18 @@ struct CardCategory: View {
     }
 }
 
+//#Preview {
+//    let cat = ArticleCategory(name: "Typography", icon: "textformat", colorName: "purple", sortOrder: 0)
+//        HStack {
+//            CardCategory(category: cat)
+//            CardCategory(category: ArticleCategory(name: "Design Fundamentals", icon: "lightbulb", colorName: "blue", sortOrder: 3))
+//        }
+//}
+
+
 #Preview {
-    let cat = ArticleCategory(name: "Typography", icon: "textformat", colorName: "purple", sortOrder: 0)
-        HStack {
-            CardCategory(category: cat)
-            CardCategory(category: ArticleCategory(name: "Design Fundamentals", icon: "lightbulb", colorName: "blue", sortOrder: 3))
-        }
+    HStack {
+        CardCategory(category: sampleCategory)
+        CardCategory(category: sampleCategory2)
+    }
 }

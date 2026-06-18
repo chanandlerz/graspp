@@ -31,14 +31,10 @@ struct HomeScreen: View {
         NavigationStack {
             ScrollView {
                 VStack (alignment: .leading, spacing: 28 ) {
-                    FavoritesProgressive(
-                        articles: favoriteArticles,
-                        store: store
-                    )
+                    FavoritesProgressive(articles: favoriteArticles)
                     
                     RecentlyViewedProgressive(
                         articles:recentArticles,
-                        store: store
                     )
                 }
                 .padding(.top, 8)
@@ -66,6 +62,22 @@ struct HomeScreen: View {
     }
 }
 
+
+struct HomeScreenPreview: View {
+    
+    init() {
+        setupPreviewStore()
+    }
+    
+    var body: some View {
+        NavigationStack{
+            HomeScreen()
+                .modelContainer(previewContainer)
+        }
+    }
+}
+
+
 #Preview {
-    HomeScreen()
+    HomeScreenPreview()
 }

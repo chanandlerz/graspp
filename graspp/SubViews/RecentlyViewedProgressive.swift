@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct RecentlyViewedProgressive: View {
     
     let articles: [Article]
-    let store: GrasppStore
     
     var body: some View {
         VStack (alignment: .leading, spacing: 14){
@@ -42,10 +42,7 @@ struct RecentlyViewedProgressive: View {
                     ForEach(Array(articles.prefix(5))) { article in
                         NavigationLink(value: article) {
                             CardArticleCategory(
-                                articleTitle: article.title,
-                                categoryName: article.category?.name ?? "",
-                                iconAccent: AnyShapeStyle(article.category?.color ?? .blue)
-                            )
+                                article: article                            )
                         }
                         .buttonStyle(.plain)
                     }
@@ -58,6 +55,19 @@ struct RecentlyViewedProgressive: View {
 
 struct RecentlyViewedDestination: Hashable {}
 
-//#Preview {
-//    RecentlyViewedProgressive()
-//}
+struct RecentlyViewedProgressivePreview: View {
+    init() {
+        setupPreviewStore()
+    }
+    
+    var body: some View {
+        NavigationStack {
+            RecentlyViewedProgressive(articles: sampleArticles)
+                .modelContainer(previewContainer)
+        }
+    }
+}
+
+#Preview {
+    RecentlyViewedProgressivePreview()
+}

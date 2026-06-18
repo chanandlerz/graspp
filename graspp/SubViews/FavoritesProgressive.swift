@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct FavoritesProgressive: View {
     
     let articles: [Article]
-    let store: GrasppStore
     
     var body: some View {
         VStack (alignment:.leading, spacing: 14) {
@@ -51,12 +51,7 @@ struct FavoritesProgressive: View {
                 ) {
                     ForEach(visible) { article in
                         NavigationLink(value: article){
-                            CardFavorite(
-                                symbolName: article.category?.icon ?? "doc",
-                                articleTitle: article.title,
-                                categoryName: article.category?.name ?? "",
-                                iconAccent: AnyShapeStyle(article.category?.color ?? .blue)
-                            )
+                            CardFavorite(article: article)
                         }
                         .buttonStyle(.plain)
                     }
@@ -69,6 +64,19 @@ struct FavoritesProgressive: View {
 
 struct FavoriteDestination: Hashable {}
 
-//#Preview {
-//    FavoritesProgressive()
-//}
+struct FavoritesProgressivePreview: View {
+    init() {
+        setupPreviewStore()
+    }
+    
+    var body: some View {
+        NavigationStack {
+            FavoritesProgressive(articles: sampleArticles)
+                .modelContainer(previewContainer)
+        }
+    }
+}
+
+#Preview {
+    FavoritesProgressivePreview()
+}

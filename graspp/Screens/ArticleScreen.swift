@@ -339,29 +339,11 @@ struct FloatingPill: View {
     }
 }
 
-// MARK: - Preview
 
-//#Preview {
-//    NavigationStack {
-//        ArticleScreen(article: {
-//            let a = Article(
-//                title: "Dynamic Type",
-//                summary: "How iOS scales text.",
-//                body: "Dynamic Type allows users to set their preferred text size.\n\n## Rules\n\n- Always use text styles\n- Never hardcode pt sizes",
-//                hig: "Prefer the built-in text styles.",
-//                higSource: "Apple HIG · Typography"
-//            )
-//            // tambah ini
-//            let cat = ArticleCategory(name: "Typography", icon: "textformat", colorName: "indigo", sortOrder: 0)
-//            a.category = cat
-//            
-//            a.snippets = [
-//                CodeSnippet(language: "SwiftUI", code: "Text(\"Hello\")\n    .font(.body)", sortOrder: 0)
-//            ]
-//            a.references = [
-//                ArticleReference(title: "Apple HIG · Typography", url: "https://developer.apple.com/design/human-interface-guidelines/typography")
-//            ]
-//            return a
-//        }())
-//    }
-//}
+// MARK: - Preview
+#Preview {
+    NavigationStack {
+        ArticleScreen(article: sampleArticle)
+    }
+}
+
