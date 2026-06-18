@@ -15,15 +15,15 @@ struct FavoritesProgressive: View {
     var body: some View {
         VStack (alignment:.leading, spacing: 14) {
             // MARK: Section Header
-            HStack (spacing: 16){
+            HStack (alignment:.center, spacing: 16){
                 Text("Favorites")
                     .font(.title2)
                     .fontWeight(.bold)
                 
                 NavigationLink(value: FavoriteDestination()) {
                     Image(systemName: "chevron.right")
-                        .font(.title2)
-                        .fontWeight(.bold)
+                        .font(.title3)
+                        .fontWeight(.semibold)
                         .foregroundColor(.secondary)
                 }
                 

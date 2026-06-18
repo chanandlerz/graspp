@@ -22,8 +22,8 @@ struct RecentlyViewedProgressive: View {
                 
                 NavigationLink(value: RecentlyViewedDestination()) {
                     Image(systemName: "chevron.right")
-                        .font(.title2)
-                        .fontWeight(.bold)
+                        .font(.title3)
+                        .fontWeight(.semibold)
                         .foregroundColor(.secondary)
                 }
                 
