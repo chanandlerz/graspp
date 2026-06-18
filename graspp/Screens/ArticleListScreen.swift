@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ArticleListScreen: View {
     
@@ -34,14 +35,8 @@ struct ArticleListScreen: View {
 }
 
 #Preview {
-    let cat = ArticleCategory(
-        name: "Typography",
-        icon: "textformat",
-        colorName: "purple",
-        sortOrder: 0
-    )
-
     NavigationStack {
-        ArticleListScreen(category: cat)
+        ArticleListScreen(category: sampleCategory)
     }
+    .modelContainer(previewContainer)
 }

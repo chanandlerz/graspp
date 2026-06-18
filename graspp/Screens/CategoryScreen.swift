@@ -38,7 +38,6 @@ struct CategoryScreen: View {
     }
 }
 #Preview {
-    let cat = ArticleCategory(name: "Typography", icon: "textformat", colorName: "purple", sortOrder: 0)
-    
     CategoryScreen()
+        .modelContainer(previewContainer)
 }
