@@ -12,25 +12,20 @@ struct ContentView: View {
     @State private var selectedTab = 0
     
     var body: some View {
-        TabView (selection: $selectedTab){
-            HomeScreen()
-                .tabItem {
-                    Label("Home", systemImage: "house")
-                }
+        TabView(selection: $selectedTab) {
+            Tab("Home", systemImage: "house", value: 0) {
+                HomeScreen()
+            }
             
-            CategoryScreen()
-                .tabItem {
-                    Label("Category", systemImage: "rectangle.grid.2x2")
-                }
+            Tab("Category", systemImage: "rectangle.grid.2x2", value: 1) {
+                CategoryScreen()
+            }
             
-            SearchScreen()
-                .tabItem () {
-                    Image(systemName: "magnifyingglass")
-                    Text("Search")
-                }
-                .tag(2)
+            Tab(value: 2, role: .search) {
+                SearchScreen()
+            }
         }
-    }
+    }  
 }
 
 #Preview {

@@ -42,149 +42,114 @@ struct SearchScreen: View {
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                // Search bar
-                HStack(spacing: 10) {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundStyle(.secondary)
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
                     
-                    TextField("Search", text: $query)
-                        .autocorrectionDisabled()
-                        .onSubmit {
-                            saveToHistory(query)
-                        }
-                    
+                    // MARK: Typing - show results
                     if !query.isEmpty {
-                        Button {
-                            query = ""
-                        } label: {
-                            Image(systemName: "xmark.circle.fill")
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                }
-                .padding(12)
-                .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
-                .padding(.horizontal, 16)
-                .padding(.vertical, 12)
-                
-                Divider()
-                
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 0) {
-                        
-                        // MARK: Typing - show results
-                        if !query.isEmpty {
-                            if searchResults.isEmpty {
-                                VStack(spacing: 8) {
-                                    Image(systemName: "magnifyingglass")
-                                        .font(.largeTitle)
-                                        .foregroundStyle(.secondary)
-                                    Text("No results for \"\(query)\"")
-                                        .font(.headline)
-                                    Text("Try a different keyword")
-                                        .font(.subheadline)
-                                        .foregroundStyle(.secondary)
-                                }
-                                .frame(maxWidth: .infinity)
-                                .padding(40)
-                            } else {
-                                sectionHeader("Results")
-                                VStack(spacing: 8) {
-                                    ForEach(searchResults) { article in
-                                        NavigationLink(value: article) {
-                                            CardArticleList(article: article)
-                                        }
-                                        .buttonStyle(.plain)
-                                    }
-                                }
-                                .padding(.horizontal, 16)
-                                .padding(.top, 8)
+                        if searchResults.isEmpty {
+                            VStack(spacing: 8) {
+                                Image(systemName: "magnifyingglass")
+                                    .font(.largeTitle)
+                                    .foregroundStyle(.secondary)
+                                Text("No results for \"\(query)\"")
+                                    .font(.headline)
+                                Text("Try a different keyword")
+                                    .font(.subheadline)
+                                    .foregroundStyle(.secondary)
                             }
-                            
-                            // MARK: Idle - show history then recent
+                            .frame(maxWidth: .infinity)
+                            .padding(40)
                         } else {
-                            if !searchHistory.isEmpty {
-                                sectionHeader("Recent Search")
-                                VStack (spacing: 0) {
-                                    ForEach(searchHistory, id: \.self) { term in
-                                        Button {
-                                            query = term
-                                        } label: {
-                                            HStack {
-                                                Image(systemName: "clock")
-                                                    .font(.subheadline)
-                                                    .foregroundStyle(.secondary)
-                                                Text(term)
-                                                    .font(.subheadline)
-                                                    .foregroundStyle(.primary)
-                                                Spacer()
-                                                Image(systemName: "arrow.up.left")
-                                                    .font(.caption)
-                                                    .foregroundStyle(.secondary)
-                                            }
-                                            .padding(.horizontal, 14)
-                                            .padding(.vertical, 12)
-                                        }
-                                        Divider().padding(.leading, 44)
+                            sectionHeader("Results")
+                            VStack(spacing: 8) {
+                                ForEach(searchResults) { article in
+                                    NavigationLink(value: article) {
+                                        CardArticleList(article: article)
                                     }
+                                    .buttonStyle(.plain)
                                 }
-                                .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
-                                .padding(.horizontal, 16)
-                                
-                                Button("Clear history") {
-                                    historyRaw = ""
-                                }
-                                .font(.subheadline)
-                                .foregroundStyle(.red)
-                                .padding(.top, 8)
-                                .padding(.horizontal, 16)
                             }
+                            .padding(.horizontal, 16)
+                            .padding(.top, 8)
+                        }
+                        
+                        // MARK: Idle - show history then recent
+                    } else {
+                        if !searchHistory.isEmpty {
+                            sectionHeader("Recent Search")
+                            VStack (spacing: 0) {
+                                ForEach(searchHistory, id: \.self) { term in
+                                    Button {
+                                        query = term
+                                    } label: {
+                                        HStack {
+                                            Image(systemName: "clock")
+                                                .font(.subheadline)
+                                                .foregroundStyle(.secondary)
+                                            Text(term)
+                                                .font(.subheadline)
+                                                .foregroundStyle(.primary)
+                                            Spacer()
+                                            Image(systemName: "arrow.up.left")
+                                                .font(.caption)
+                                                .foregroundStyle(.secondary)
+                                        }
+                                        .padding(.horizontal, 14)
+                                        .padding(.vertical, 12)
+                                    }
+                                    Divider().padding(.leading, 44)
+                                }
+                            }
+                            .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 12))
+                            .padding(.horizontal, 16)
                             
-                            if !recentArticles.isEmpty {
-                                sectionHeader("Recently Viewed")
-                                VStack (spacing: 8) {
-                                    ForEach(Array(recentArticles.prefix(5))) { article in
-                                        NavigationLink(value:article) {
-                                            CardHistory(
-                                                article: article
-                                            )
-                                        }
-                                        .buttonStyle(.plain)
-                                    }
-                                }
-                                .padding(.horizontal, 16)
-                                .padding(.top, 8)
+                            Button("Clear history") {
+                                historyRaw = ""
                             }
+                            .font(.subheadline)
+                            .foregroundStyle(.red)
+                            .padding(.top, 8)
+                            .padding(.horizontal, 16)
+                        }
+                        
+                        if !recentArticles.isEmpty {
+                            sectionHeader("Recently Viewed")
+                            VStack (spacing: 8) {
+                                ForEach(Array(recentArticles.prefix(5))) { article in
+                                    NavigationLink(value:article) {
+                                        CardHistory(
+                                            article: article
+                                        )
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.top, 8)
                         }
                     }
-                    .padding(.top, 8)
-                    .padding(.bottom, 24)
                 }
+                .padding(.top, 8)
+                .padding(.bottom, 24)
             }
+            
             .navigationTitle("Search")
             .navigationBarTitleDisplayMode(.inline)
             .background(Color(.systemGroupedBackground))
+            
+            // MARK: Search
+            .searchable(text: $query, placement: .toolbar, prompt: "Search")
+            .autocorrectionDisabled()
+            .onSubmit (of: .search){
+                saveToHistory(query)
+            }
+            
             .navigationDestination(for: Article.self) { article in
                 ArticleScreen(article: article)
             }
         }
     }
-    //        ScrollView {
-    //            VStack (alignment: .leading, spacing: 12){
-    //                Text("History")
-    //                    .font(.callout)
-    //                    .fontWeight(.semibold)
-    //
-    //                //                Color.clear.frame(height: 8)
-    //
-    //                ForEach(0..<5) {_ in
-    //                    CardHistory(articleTitle:"Typeface vs Font long",categoryName:"Typography", iconAccent: AnyShapeStyle(.indigo))
-    //                }
-    //            }
-    //        }
-    //        .background(Color(.systemGroupedBackground))
-    //    }
     
     // MARK: Helpers
     
@@ -228,6 +193,3 @@ struct SearchScreenPreview : View {
     SearchScreenPreview()
     
 }
-//#Preview {
-//    SearchScreen()
-//}
