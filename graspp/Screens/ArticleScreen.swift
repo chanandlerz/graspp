@@ -24,6 +24,14 @@ struct ArticleScreen: View {
     @StateObject private var store = GrasppStore.shared
     @State private var activeSection: ArticleSection = .info
     
+    var availableSections: [ArticleSection] {
+        var sections : [ArticleSection] = [.info]
+        if !article.hig.isEmpty { sections.append(.hig) }
+        if !article.sortedSnippets.isEmpty { sections.append(.code) }
+        if !article.references.isEmpty { sections.append(.ref) }
+        return sections
+    }
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             ScrollViewReader {
@@ -106,7 +114,7 @@ struct ArticleScreen: View {
                             sectionDivider
                             
                             VStack(alignment: .leading, spacing: 12) {
-                                SectionLabel(icon: "Link", title: "References")
+                                SectionLabel(icon: "link", title: "References")
                                     .id(ArticleSection.ref)
                                 
                                 ReferenceList (references: article.references)
@@ -121,7 +129,7 @@ struct ArticleScreen: View {
                 
                 // MARK: - Floating Pill scroll handler
                 .overlay(alignment: .bottom) {
-                    FloatingPill(active: $activeSection) { section in
+                    FloatingPill(active: $activeSection, availableSections: availableSections) { section in
                         withAnimation {
                             proxy.scrollTo(section, anchor: .top)
                         }
@@ -192,7 +200,7 @@ struct HIGBlock: View {
             // Left accent border
             RoundedRectangle(cornerRadius: 2)
                 .fill(color)
-                .frame(width: 3)
+                .frame(width: 8)
             
             VStack(alignment: .leading, spacing: 6) {
                 Text(quote)
@@ -209,7 +217,7 @@ struct HIGBlock: View {
             
             Spacer(minLength: 0)
         }
-        .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 10))
+        .background(Color(.systemGray6), in: RoundedRectangle(cornerRadius: 10))
     }
 }
 
@@ -306,11 +314,12 @@ struct ReferenceList: View {
 
 struct FloatingPill: View {
     @Binding var active: ArticleSection
+    let availableSections: [ArticleSection]
     let onTap: (ArticleSection) -> Void
     
     var body: some View {
         HStack(spacing: 2) {
-            ForEach(ArticleSection.allCases, id:\.self) { section in
+            ForEach(availableSections, id:\.self) { section in
                 Button {
                     onTap(section)
                 } label: {
@@ -341,9 +350,14 @@ struct FloatingPill: View {
 
 
 // MARK: - Preview
-#Preview {
+#Preview ("Full Article") {
     NavigationStack {
         ArticleScreen(article: sampleArticle)
     }
 }
 
+#Preview ("Simple Article") {
+    NavigationStack {
+        ArticleScreen(article: sampleArticleMinimal)
+    }
+}
