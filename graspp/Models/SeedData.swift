@@ -25,25 +25,25 @@ enum SeedData {
         let typography = ArticleCategory(
             name: "Typography",
             icon: "textformat",
-            colorName: "purple",
+            colorName: "indigo",
             sortOrder: 0
         )
         let spacing = ArticleCategory(
             name: "Spacing",
             icon: "ruler",
-            colorName: "teal",
+            colorName: "orange",
             sortOrder: 1
         )
         let layout = ArticleCategory(
             name: "Layout",
             icon: "rectangle.split.3x1",
-            colorName: "orange",
+            colorName: "pink",
             sortOrder: 2
         )
         let fundamentals = ArticleCategory(
             name: "Design Fundamentals",
             icon: "lightbulb",
-            colorName: "blue",
+            colorName: "yellow",
             sortOrder: 3
         )
 

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import Combine
 
 // MARK: - Category
 
@@ -15,7 +16,7 @@ final class ArticleCategory {
     @Attribute(.unique) var id: UUID
     var name: String
     var icon: String          // SF Symbol name
-    var colorName: String     // "purple" | "teal" | "orange" | "blue"
+    var colorName: String     // "indigp]o" | "pink" | "orange" | "yellow"
     var sortOrder: Int
 
     @Relationship(deleteRule: .cascade, inverse: \Article.category)
@@ -37,9 +38,10 @@ final class ArticleCategory {
 
     var color: Color {
         switch colorName {
-        case "purple": return .purple
-        case "teal":   return .teal
+        case "indigo": return .indigo
+        case "pink":   return .pink
         case "orange": return .orange
+        case "yellow": return .yellow
         default:       return .blue
         }
     }
@@ -96,6 +98,7 @@ final class ArticleReference {
 final class Article {
     @Attribute(.unique) var id: UUID
     var title: String
+//    var category: String
     var summary: String       // one-liner for list screen
     var body: String          // full markdown body
     var hig: String           // HIG quote, plain string
