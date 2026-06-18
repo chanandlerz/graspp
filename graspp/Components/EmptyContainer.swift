@@ -8,11 +8,30 @@
 import SwiftUI
 
 struct EmptyContainer: View {
+    let symbol: String
+    let headline: String
+    let subHeadline: String
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack (spacing: 16) {
+            Image(systemName: symbol)
+                .font(.largeTitle)
+                .foregroundStyle(.secondary)
+            VStack {
+                Text(headline)
+                    .font(.headline)
+                    .foregroundStyle(.secondary)
+                Text(subHeadline)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(16)
     }
 }
 
 #Preview {
-    EmptyContainer()
+    EmptyContainer(symbol: "star.slash", headline: "No favorites yet.", subHeadline: "Tap the star icon on any article.")
 }

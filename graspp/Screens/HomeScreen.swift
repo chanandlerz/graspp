@@ -9,9 +9,6 @@ import SwiftUI
 import SwiftData
 
 struct HomeScreen: View {
-    
-    //    @Environment(\.modelContext) private var context
-    //    @Query private var categories: [ArticleCategory]
     @Query private var allArticles: [Article]
     @StateObject private var store = GrasppStore.shared
     
@@ -40,7 +37,7 @@ struct HomeScreen: View {
                 .padding(.top, 8)
             }
             
-            .navigationTitle("Graspp")
+            .navigationTitle("Home")
             .navigationBarTitleDisplayMode(.large)
             .background(Color(.systemGroupedBackground))
             

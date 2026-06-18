@@ -32,10 +32,8 @@ struct RecentlyViewedProgressive: View {
             .padding(.horizontal, 16)
             
             if articles.isEmpty {
-                Text("Nothing viewed yet. Start exploring from Category.")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .padding(.horizontal, 16)
+                EmptyContainer(symbol: "clock.badge.exclamationmark", headline: "Nothing viewed yet.", subHeadline: "Start exploring from Category or Search.")
+
             } else {
                 // Max 5 items
                 VStack(spacing: 8) {
@@ -56,18 +54,46 @@ struct RecentlyViewedProgressive: View {
 struct RecentlyViewedDestination: Hashable {}
 
 struct RecentlyViewedProgressivePreview: View {
-    init() {
-        setupPreviewStore()
-    }
-    
-    var body: some View {
-        NavigationStack {
-            RecentlyViewedProgressive(articles: sampleArticles)
-                .modelContainer(previewContainer)
+    let isEmptyState: Bool
+        private let modelContainer: ModelContainer
+        
+        init(isEmptyState: Bool = false) {
+            self.isEmptyState = isEmptyState
+            
+            if isEmptyState {
+                self.modelContainer = Self.makeEmptyPreviewContainer()
+            } else {
+                setupPreviewStore()
+                self.modelContainer = previewContainer
+            }
         }
-    }
+        
+        var body: some View {
+            NavigationStack {
+                RecentlyViewedProgressive(articles: isEmptyState ? [] : sampleArticles)
+                    .modelContainer(modelContainer)
+            }
+        }
+        
+        private static func makeEmptyPreviewContainer() -> ModelContainer {
+            let schema = Schema([
+                ArticleCategory.self,
+                Article.self,
+                CodeSnippet.self,
+                ArticleReference.self
+            ])
+            let config = ModelConfiguration(isStoredInMemoryOnly: true)
+            return try! ModelContainer(for: schema, configurations: config)
+        }
 }
 
-#Preview {
-    RecentlyViewedProgressivePreview()
+
+// 1. Preview untuk State Normal (Ada Data)
+#Preview("Default State") {
+    RecentlyViewedProgressivePreview(isEmptyState: false)
+}
+
+// 2. Preview untuk Empty State (Kosong)
+#Preview("Empty State") {
+    RecentlyViewedProgressivePreview(isEmptyState: true)
 }

@@ -35,10 +35,8 @@ struct FavoritesProgressive: View {
             
             if articles.isEmpty {
                 // MARK: Empty state
-                Text("No favorites yet. Tap the star icon on any article")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .padding(.horizontal, 16)
+                EmptyContainer(symbol: "star.slash", headline: "No favorites yet.", subHeadline: "Tap the star icon on any article.")
+
             } else {
                 // MARK: Favorite articles
                 // 2-column grid, max 4 items
@@ -65,18 +63,46 @@ struct FavoritesProgressive: View {
 struct FavoriteDestination: Hashable {}
 
 struct FavoritesProgressivePreview: View {
-    init() {
-        setupPreviewStore()
-    }
-    
-    var body: some View {
-        NavigationStack {
-            FavoritesProgressive(articles: sampleArticles)
-                .modelContainer(previewContainer)
+    let isEmptyState: Bool
+        private let modelContainer: ModelContainer
+        
+        init(isEmptyState: Bool = false) {
+            self.isEmptyState = isEmptyState
+            
+            if isEmptyState {
+                self.modelContainer = Self.makeEmptyPreviewContainer()
+            } else {
+                setupPreviewStore()
+                self.modelContainer = previewContainer
+            }
         }
-    }
+        
+        var body: some View {
+            NavigationStack {
+                FavoritesProgressive(articles: isEmptyState ? [] : sampleArticles)
+                    .modelContainer(modelContainer)
+            }
+        }
+        
+        private static func makeEmptyPreviewContainer() -> ModelContainer {
+            let schema = Schema([
+                ArticleCategory.self,
+                Article.self,
+                CodeSnippet.self,
+                ArticleReference.self
+            ])
+            let config = ModelConfiguration(isStoredInMemoryOnly: true)
+            return try! ModelContainer(for: schema, configurations: config)
+        }
 }
 
-#Preview {
-    FavoritesProgressivePreview()
+
+// 1. Preview untuk State Normal (Ada Data)
+#Preview("Default State") {
+    FavoritesProgressivePreview(isEmptyState: false)
+}
+
+// 2. Preview untuk Empty State (Kosong)
+#Preview("Empty State") {
+    FavoritesProgressivePreview(isEmptyState: true)
 }
