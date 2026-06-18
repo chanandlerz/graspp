@@ -61,7 +61,7 @@ struct CardArticleCategory: View {
     }
 }
 
+
 #Preview {
-    CardArticleCategory(articleTitle:"Typeface vs Font long",categoryName:"Typography", iconAccent: AnyShapeStyle(.indigo)
-    )
+    CardArticleCategory(articleTitle: sampleArticle.title, categoryName: sampleArticle.category?.name ?? "", iconAccent: AnyShapeStyle(sampleArticle.category?.color ?? .blue))
 }
