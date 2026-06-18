@@ -24,7 +24,7 @@ struct FavoritesProgressive: View {
                     Image(systemName: "chevron.right")
                         .font(.title2)
                         .fontWeight(.bold)
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.secondary)
                 }
                 
                 Spacer()
