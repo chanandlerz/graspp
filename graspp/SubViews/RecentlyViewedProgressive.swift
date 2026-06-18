@@ -8,37 +8,56 @@
 import SwiftUI
 
 struct RecentlyViewedProgressive: View {
+    
+    let articles: [Article]
+    let store: GrasppStore
+    
     var body: some View {
-        VStack (spacing: 14){
+        VStack (alignment: .leading, spacing: 14){
+            // MARK: Section header
             HStack (spacing: 16){
                 Text("Recently viewed")
                     .font(.title2)
                     .fontWeight(.bold)
-                Image(systemName: "chevron.right")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .foregroundColor(.secondary)
+                
+                NavigationLink(value: RecentlyViewedDestination()) {
+                    Image(systemName: "chevron.right")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.secondary)
+                }
+                
                 Spacer()
             }
+            .padding(.horizontal, 16)
             
-            VStack (spacing: 12){
-                CardArticleCategory(articleTitle:"Typeface vs Font long",categoryName:"Typography", iconAccent: AnyShapeStyle(.indigo)
-                )
-                CardArticleCategory(articleTitle:"Typeface vs Font long",categoryName:"Typography", iconAccent: AnyShapeStyle(.indigo)
-                )
-                CardArticleCategory(articleTitle:"Typeface vs Font long",categoryName:"Typography", iconAccent: AnyShapeStyle(.indigo)
-                )
-                CardArticleCategory(articleTitle:"Typeface vs Font long",categoryName:"Typography", iconAccent: AnyShapeStyle(.indigo)
-                )
-                CardArticleCategory(articleTitle:"Typeface vs Font long",categoryName:"Typography", iconAccent: AnyShapeStyle(.indigo)
-                )
+            if articles.isEmpty {
+                Text("Nothing viewed yet. Start exploring from Category.")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 16)
+            } else {
+                // Max 5 items
+                VStack(spacing: 8) {
+                    ForEach(Array(articles.prefix(5))) { article in
+                        NavigationLink(value: article) {
+                            CardArticleCategory(
+                                articleTitle: article.title,
+                                categoryName: article.category?.name ?? "",
+                                iconAccent: AnyShapeStyle(article.category?.color ?? .blue)
+                            )
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding(.horizontal, 16)
             }
-            
         }
-        .padding(.horizontal, 16)
     }
 }
 
-#Preview {
-    RecentlyViewedProgressive()
-}
+struct RecentlyViewedDestination: Hashable {}
+
+//#Preview {
+//    RecentlyViewedProgressive()
+//}
