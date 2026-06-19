@@ -94,7 +94,7 @@ var sampleArticle: Article {
     let cat = ArticleCategory(
         name: "Typography",
         icon: "textformat",
-        colorName: "purple",
+        colorName: "indigo",
         sortOrder: 0
     )
     let article = Article(
