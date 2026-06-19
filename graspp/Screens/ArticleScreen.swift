@@ -140,6 +140,7 @@ struct ArticleScreen: View {
             }
         }
         
+        .navigationTitle(article.title)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
