@@ -223,8 +223,83 @@ struct HIGBlock: View {
 
 
 // MARK: - Code Block
-
 struct CodeBlock: View {
+    let snippet: CodeSnippet
+    @State private var copied = false
+    
+    private var lines: [String] {
+        snippet.code.components(separatedBy: "\n")
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            // Header
+            HStack {
+                Text(snippet.language.uppercased())
+                    .font(.caption2)
+                    .fontWeight(.medium)
+                    .foregroundStyle(Color(.systemGray))
+                    .kerning(0.5)
+                
+                Spacer()
+                
+                Button {
+                    UIPasteboard.general.string = snippet.code
+                    copied = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { copied = false }
+                } label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: copied ? "checkmark" : "doc.on.doc").font(.caption)
+                        Text(copied ? "Copied" : "Copy").font(.caption)
+                    }
+                    .foregroundStyle(.secondary)
+                }
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 10)
+            
+            Divider().opacity(0.15)
+            
+            
+            
+            // Code body — line numbers pinned, code scrolls
+            HStack(alignment: .top, spacing: 2) {
+                // Pinned line numbers
+                VStack(alignment: .trailing, spacing: 2) {
+                    ForEach(Array(lines.enumerated()), id: \.offset) { i, _ in
+                        Text("\(i + 1)")
+                            .font(.system(.footnote, design: .monospaced))
+                            .foregroundStyle(Color(.systemGray))
+                    }
+                }
+                .padding(.vertical, 14)
+                .padding(.horizontal, 10)
+                .background(Color(red: 0.10, green: 0.10, blue: 0.11))                .padding(.vertical, 14)
+                .padding(.horizontal, 10)
+                .background(Color(red: 0.10, green: 0.10, blue: 0.11))
+                
+                Divider().opacity(0.15)
+                
+                // Scrollable code
+                ScrollView(.horizontal, showsIndicators: false) {
+                    VStack(alignment: .leading, spacing: 2) { // match spacing
+                        ForEach(Array(lines.enumerated()), id: \.offset) { _, line in
+                            Text(line.isEmpty ? " " : line)
+                                .font(.system(.footnote, design: .monospaced))
+                                .foregroundStyle(Color(red: 0.85, green: 0.85, blue: 0.85))
+                        }
+                    }
+                    .padding(.vertical, 14)
+                    .padding(.horizontal, 14)
+                }
+            }
+        }
+        .background(Color(red: 0.12, green: 0.12, blue: 0.13), in: RoundedRectangle(cornerRadius: 10))
+    }
+}
+
+
+struct CodeBlock_old: View {
     let snippet: CodeSnippet
     @State private var copied = false
     
@@ -286,18 +361,22 @@ struct ReferenceList: View {
         VStack(spacing: 0) {
             ForEach(Array(references.enumerated()), id:\.element.id) {
                 index, ref in
-                HStack {
-                    Text(ref.title)
-                        .font(.subheadline)
-                        .foregroundStyle(.blue)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                    Image(systemName: "arrow.up.right")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                if let url = URL(string: ref.url) {
+                    Link(destination: url){
+                        HStack {
+                            Text(ref.title)
+                                .font(.subheadline)
+                                .foregroundStyle(.blue)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            
+                            Image(systemName: "arrow.up.right")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 12)
+                    }
                 }
-                .padding(.horizontal, 14)
-                .padding(.vertical, 12)
                 
                 if index < references.count - 1 {
                     Divider()
@@ -348,44 +427,7 @@ struct FloatingPill: View {
     }
 }
 
-// MARK: Theme
-extension Theme {
-    static let graspp = Theme()
-        .heading1 { config in
-            config.label
-                .markdownTextStyle {
-                    FontSize(20)
-                    FontWeight(.bold)
-                }
-                .relativeLineSpacing(.em(0.1))
-                .markdownMargin(top: 20, bottom: 4)
-        }
-        .heading2 { config in
-            config.label
-                .markdownTextStyle {
-                    FontSize(17)
-                    FontWeight(.semibold)
-                }
-                .markdownMargin(top: 16, bottom: 4)
-        }
-        .heading3 { config in
-            config.label
-                .markdownTextStyle {
-                    FontSize(15)
-                    FontWeight(.semibold)
-                    ForegroundColor(.secondary)
-                }
-                .markdownMargin(top: 12, bottom: 2)
-        }
-        .paragraph { config in
-            config.label
-                .markdownTextStyle {
-                    FontSize(15)
-                }
-                .relativeLineSpacing(.em(0.15))
-                .markdownMargin(top: 0, bottom: 12)
-        }
-}
+
 
 // MARK: - Preview
 #Preview ("Full Article") {
