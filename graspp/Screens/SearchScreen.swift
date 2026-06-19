@@ -65,7 +65,7 @@ struct SearchScreen: View {
                             VStack(spacing: 8) {
                                 ForEach(searchResults) { article in
                                     NavigationLink(value: article) {
-                                        CardArticleList(article: article)
+                                        CardArticleList(article: article, highlight: query)
                                     }
                                     .buttonStyle(.plain)
                                 }
@@ -191,5 +191,9 @@ struct SearchScreenPreview : View {
 
 #Preview {
     SearchScreenPreview()
-    
+}
+
+#Preview("Highlighted") {
+    CardArticleList(article: sampleArticle, highlight: "how ios")
+        .padding()
 }

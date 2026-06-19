@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CardArticleList: View {
     let article: Article
+    var highlight: String = ""
     
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
     
@@ -29,16 +30,14 @@ struct CardArticleList: View {
             Color.clear.frame(width:14, height: 4)
             
             VStack (alignment: .leading, spacing: 4){
-                Text(article.title)
+                article.title.highlighted(query: highlight)
                     .font(.headline)
                     .fontWeight(.semibold)
                     .lineLimit(2)
                     .layoutPriority(1)
-                
-                
-                Text(article.summary)
+
+                article.summary.highlighted(query: highlight, baseColor: .secondary)
                     .font(.caption)
-                    .foregroundStyle(.secondary)
             }
             .fixedSize(horizontal: false, vertical: true)
             
@@ -58,4 +57,8 @@ struct CardArticleList: View {
 
 #Preview {
     CardArticleList(article: sampleArticle)
+}
+
+#Preview ("Result search"){
+    CardArticleList(article: sampleArticle, highlight: "how ios")
 }
