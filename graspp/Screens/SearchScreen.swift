@@ -68,6 +68,10 @@ struct SearchScreen: View {
                                         CardArticleList(article: article, highlight: query)
                                     }
                                     .buttonStyle(.plain)
+                                    .simultaneousGesture(TapGesture().onEnded {
+                                        saveToHistory(query)
+                                    }
+                                    )
                                 }
                             }
                             .padding(.horizontal, 16)
