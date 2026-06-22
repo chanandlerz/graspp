@@ -224,7 +224,108 @@ struct HIGBlock: View {
 
 
 // MARK: - Code Block
+
+import SwiftUI
+
 struct CodeBlock: View {
+    let snippet: CodeSnippet
+
+    @State private var copied = false
+
+    private var lines: [String] {
+        snippet.code.components(separatedBy: "\n")
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+
+            // MARK: Header
+
+            HStack {
+                Text(snippet.language.uppercased())
+                    .font(.caption2)
+                    .fontWeight(.medium)
+                    .foregroundStyle(Color(.systemGray))
+                    .kerning(0.5)
+
+                Spacer()
+
+                Button {
+                    UIPasteboard.general.string = snippet.code
+
+                    copied = true
+
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        copied = false
+                    }
+                } label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: copied ? "checkmark" : "doc.on.doc")
+                        Text(copied ? "Copied" : "Copy")
+                    }
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                }
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 10)
+
+            Divider()
+                .opacity(0.15)
+
+            // MARK: Code
+
+            LazyVStack(alignment: .leading, spacing: 0) {
+
+                ForEach(Array(lines.enumerated()), id: \.offset) { index, line in
+
+                    HStack(alignment: .top, spacing: 0) {
+
+                        // Line Number
+                        Text("\(index + 1)")
+                            .font(.system(.footnote, design: .monospaced))
+                            .foregroundStyle(Color(.systemGray))
+                            .frame(width: 42, alignment: .trailing)
+                            .padding(.trailing, 10)
+
+                        Divider()
+                            .opacity(0.15)
+
+                        // Code Line
+                        Text(line.isEmpty ? " " : line)
+                            .font(.system(.footnote, design: .monospaced))
+                            .foregroundStyle(
+                                Color(.lightGray)
+                            )
+                            .textSelection(.enabled)
+                            .multilineTextAlignment(.leading)
+                            .frame(
+                                maxWidth: .infinity,
+                                alignment: .leading
+                            )
+                            .padding(.leading, 12)
+                    }
+                    .padding(.vertical, 2)
+                }
+            }
+            .padding(.vertical, 12)
+        }
+        .background(
+            Color(
+                red: 0.12,
+                green: 0.12,
+                blue: 0.13
+            ),
+            in: RoundedRectangle(cornerRadius: 12)
+        )
+        .overlay {
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(.white.opacity(0.05))
+        }
+    }
+}
+
+struct CodeBlock_2: View {
     let snippet: CodeSnippet
     @State private var copied = false
     
