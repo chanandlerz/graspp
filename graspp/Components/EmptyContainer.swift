@@ -13,25 +13,26 @@ struct EmptyContainer: View {
     let subHeadline: String
     
     var body: some View {
-        VStack (spacing: 16) {
+        VStack (alignment: .center, spacing: 16) {
             Image(systemName: symbol)
                 .font(.largeTitle)
                 .foregroundStyle(.secondary)
-            VStack {
+            VStack (alignment: .center){
                 Text(headline)
                     .font(.headline)
                     .foregroundStyle(.secondary)
                 Text(subHeadline)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
 
             }
         }
-        .frame(maxWidth: .infinity)
         .padding(16)
+        .frame(maxWidth: .infinity, alignment: .center)
     }
 }
 
 #Preview {
-    EmptyContainer(symbol: "star.slash", headline: "No favorites yet.", subHeadline: "Tap the star icon on any article.")
+    EmptyContainer(symbol: "star.slash", headline: "No favorites yet.", subHeadline: "Browse an article from Category, then tap ★ to save it here.")
 }
