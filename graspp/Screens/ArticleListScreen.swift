@@ -26,6 +26,7 @@ struct ArticleListScreen: View {
             }
             .padding(.horizontal)
         }
+        .background(Color(.systemGroupedBackground))
         .navigationTitle(category.name)
         .navigationBarTitleDisplayMode(.large)
         .navigationDestination(for: Article.self) { article in
