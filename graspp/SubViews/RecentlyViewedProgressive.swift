@@ -20,11 +20,13 @@ struct RecentlyViewedProgressive: View {
                     .font(.title2)
                     .fontWeight(.bold)
                 
-                NavigationLink(value: RecentlyViewedDestination()) {
-                    Image(systemName: "chevron.right")
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.secondary)
+                if !articles.isEmpty {
+                    NavigationLink(value: RecentlyViewedDestination()) {
+                        Image(systemName: "chevron.right")
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.secondary)
+                    }
                 }
                 
                 Spacer()
@@ -32,7 +34,7 @@ struct RecentlyViewedProgressive: View {
             .padding(.horizontal, 16)
             
             if articles.isEmpty {
-                EmptyContainer(symbol: "clock.badge.exclamationmark", headline: "Nothing viewed yet.", subHeadline: "Start exploring from Category or Search.")
+                EmptyContainer(symbol: "clock.badge.exclamationmark", headline: "Nothing viewed yet.", subHeadline: "Browse articles from Category or Search to start your history.")
 
             } else {
                 // Max 5 items

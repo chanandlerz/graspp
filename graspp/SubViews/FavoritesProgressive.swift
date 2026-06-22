@@ -9,6 +9,15 @@ import SwiftUI
 import SwiftData
 
 struct FavoritesProgressive: View {
+    @Environment(\.dynamicTypeSize) var dynamicTypeSize
+    
+    var columns: [GridItem] {
+        if dynamicTypeSize >= .accessibility1 {
+            return [GridItem(.flexible())]
+        } else {
+            return [GridItem(.flexible()), GridItem(.flexible())]
+        }
+    }
     
     let articles: [Article]
     
@@ -20,13 +29,15 @@ struct FavoritesProgressive: View {
                     .font(.title2)
                     .fontWeight(.bold)
                 
-                NavigationLink(value: FavoriteDestination()) {
-                    Image(systemName: "chevron.right")
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.secondary)
+                if !articles.isEmpty{
+                    NavigationLink(value: FavoriteDestination()) {
+                        Image(systemName: "chevron.right")
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.secondary)
+                    }
                 }
-                
+
                 Spacer()
             }
             .padding(.horizontal, 16)
@@ -35,7 +46,7 @@ struct FavoritesProgressive: View {
             
             if articles.isEmpty {
                 // MARK: Empty state
-                EmptyContainer(symbol: "star.slash", headline: "No favorites yet.", subHeadline: "Tap the star icon on any article.")
+                EmptyContainer(symbol: "star.slash", headline: "No favorites yet.", subHeadline: "Browse an article from Category, then tap ★ to save it here.")
 
             } else {
                 // MARK: Favorite articles
@@ -44,7 +55,7 @@ struct FavoritesProgressive: View {
                 let visible = Array(articles.prefix(4))
                 
                 LazyVGrid (
-                    columns: [GridItem(.flexible()), GridItem(.flexible())],
+                    columns: columns,
                     spacing: 12
                 ) {
                     ForEach(visible) { article in
