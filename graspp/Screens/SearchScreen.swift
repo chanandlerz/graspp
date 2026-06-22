@@ -132,6 +132,15 @@ struct SearchScreen: View {
                             .padding(.horizontal, 16)
                             .padding(.top, 8)
                         }
+                        
+                        if searchHistory.isEmpty && recentArticles.isEmpty {
+                            EmptyContainer(
+                                symbol: "magnifyingglass",
+                                headline: "Search articles and topics.",
+                                subHeadline: "Try typing a title, category, or keyword."
+                            )
+                            .padding(.top, 40)
+                        }
                     }
                 }
                 .padding(.top, 8)
