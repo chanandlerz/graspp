@@ -9,14 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var selectedTab = 0
+    @State private var selectedTab = 1
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            Tab("Home", systemImage: "house", value: 0) {
+            Tab("My Shelf", systemImage: "books.vertical", value: 0) {
                 HomeScreen()
             }
-            
             Tab("Category", systemImage: "rectangle.grid.2x2", value: 1) {
                 CategoryScreen()
             }
