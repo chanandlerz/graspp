@@ -39,10 +39,10 @@ struct CardFavorite: View {
         
         // 4. Hitung total height
         let titleHeight = title2Font.lineHeight
-        let headlineHeight = headlineFont.lineHeight * 2 // Sebaiknya pakai angka bulat untuk jumlah baris
+        let headlineHeight = headlineFont.lineHeight * 2
         let calloutHeight = calloutFont.lineHeight
         
-        let totalPadding: CGFloat = 32.0 + 64.0 // Total padding vertikal luar & dalam
+        let totalPadding: CGFloat = 16.0 + 64.0 // Total padding vertikal luar & dalam
         
         return titleHeight + headlineHeight + calloutHeight + totalPadding
     }
@@ -75,7 +75,8 @@ struct CardFavorite: View {
                 
         }
         .padding(16)
-        .frame(width: 181, height: cardHeightDetect)
+        .frame(maxWidth: .infinity)
+        .frame(height: cardHeightDetect)
         .frame(minHeight: 153)
         .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 10))
     }
