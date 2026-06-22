@@ -9,7 +9,15 @@ import SwiftUI
 import SwiftData
 
 struct CategoryScreen: View {
-    let columns = [GridItem(.flexible()), GridItem(.flexible())]
+    @Environment(\.dynamicTypeSize) var dynamicTypeSize
+    
+    var columns: [GridItem] {
+        if dynamicTypeSize >= .accessibility1 {
+            return [GridItem(.flexible())]
+        } else {
+            return [GridItem(.flexible()), GridItem(.flexible())]
+        }
+    }
     
     @Query(sort: \ArticleCategory.sortOrder) var categories: [ArticleCategory]
     
@@ -27,6 +35,7 @@ struct CategoryScreen: View {
                 }
                 .padding(.horizontal, 16)
             }
+            .padding(.top, 16)
             .background(Color(.systemGroupedBackground))
             .listStyle(.plain)
             .navigationTitle("Category")

@@ -11,17 +11,26 @@ import SwiftData
 struct FavoriteScreen: View {
     @Query private var allArticles: [Article]
     @StateObject private var store = GrasppStore.shared
+    @Environment(\.dynamicTypeSize) var dynamicTypeSize
 
     private var favoriteArticles: [Article] {
         store.favoriteIDs.compactMap { id in
             allArticles.first { $0.id == id }
         }
     }
+    
+    var columns: [GridItem] {
+        if dynamicTypeSize >= .accessibility1 {
+            return [GridItem(.flexible())]
+        } else {
+            return [GridItem(.flexible()), GridItem(.flexible())]
+        }
+    }
 
     var body: some View {
         ScrollView {
             LazyVGrid(
-                columns: [GridItem(.flexible()), GridItem(.flexible())],
+                columns: columns,
                 spacing: 12
             ) {
                 ForEach(favoriteArticles) { article in
