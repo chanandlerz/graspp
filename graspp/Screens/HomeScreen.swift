@@ -37,7 +37,7 @@ struct HomeScreen: View {
                 .padding(.top, 8)
             }
             
-            .navigationTitle("Home")
+            .navigationTitle("My Shelf")
             .navigationBarTitleDisplayMode(.large)
             .background(Color(.systemGroupedBackground))
             
