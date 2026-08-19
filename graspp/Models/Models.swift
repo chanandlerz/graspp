@@ -37,14 +37,29 @@ final class ArticleCategory {
     }
 
     var color: Color {
-        switch colorName {
-        case "indigo": return .indigo
-        case "pink":   return .pink
-        case "orange": return .orange
-        case "yellow": return .yellow
-        default:       return .blue
+            switch colorName.lowercased() {
+            case "indigo":
+                return .indigo
+            case "orange":
+                return .orange
+            case "pink":
+                return .pink
+            case "yellow":
+                return .yellow
+            case "purple":
+                return .purple
+            case "teal":
+                return .teal
+            case "green":
+                return .green
+            case "red":
+                return .red
+            case "mint":
+                return .mint
+            default:
+                return .blue 
+            }
         }
-    }
 }
 
 // MARK: - Code Snippet
